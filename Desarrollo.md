@@ -158,10 +158,47 @@ Si bien técnicamente un servicio REST puede transferir la información en cualq
 ##### Buenas Prácticas.
 
 Para mantener la consistencia en el desarrollo de los servicios REST, se sugiere implementar las siguientes buenas prácticas:
-* Contar con manejo de respuestas de tipo JSON por defecto, y solo en caso de necesidad, otro tipo de contenido (XML, CSV u otro)
-* Los URI (Uniform Resource Identifier) son nombres o sustantivos en plural y en minúscula para todos los recursos; esto porque el protocolo HTTP ya maneja los verbos que corresponden a las acciones de CRUD (POST, PUT, PATCH, GET, u otros).
+* Contar con manejo de respuestas de tipo JSON por defecto, y solo en caso de necesidad, otro tipo de contenido (XML, CSV u otro). 
+* Para indicar el formato de respuesta utilizar el campo content-type. Por ejemplo: XML: Content-Type: application/xml JSON: Content-Type: application/json; charset=utf-8
+* Una URI (Uniform Resource Identifier) identifica un recurso.
+* La URI son nombres o sustantivos en plural y en minúscula, no verbos.
+* Usar los verbos del protocolo HTTP ya que maneja las acciones que corresponde a CRUD (GET, POST, PUT, DELETE, u otros).
+* Ponga el número de versión en la URL, por ejemplo: http://ejemplo.gob.sv/api/v1.0/nombre-de-recurso
 * Usar la notación “camello” (camelCase), que es la práctica de escribir frases compuestas de manera que cada palabra en medio de la frase comience con una letra mayúscula (por ejemplo, fraseEnCamelCase). Utilizar esta notación para nombrar recursos, atributos y parámetros.
-* Aprovechar la naturaleza jerárquica de la URL siempre que un objeto tenga relación con otro.
+
+**Estructuras válidas de URIs**
+
+* Lista de servicios:
+GET http://www.ejemplo.gob.sv/api/v1.0/servicios
+
+* Lista de servicios filtrando con query string:
+GET http://www.ejemplo.gob.sv/api/v1.0/servicios?anio=2016&orden=desc
+
+* Buscar un servicio por id (1234):
+GET http://www.ejemplo.gob.sv/api/v1.0/servicios/1234
+
+* Buscar los comentarios del servicio (1234):
+GET http://www.ejemplo.gob.sv/api/v1.0/servicios/1234/comentarios
+
+* Especificar campos opcionales en una lista separada por coma:
+GET http://www.ejemplo.gob.sv/api/v1.0/servicios/1234?campos=nombre,fecha
+
+* Agregar un comentario a un servicio específico:
+POST http://ejemplo.gob.sv/api/v1.0/servicios/1234/comentarios
+
+**Estructuras NO válidas de URIs**
+
+* Sustantivos singulares:
+http://www.ejemplo.gob.sv/servicio
+
+http://www.ejemplo.gob.sv/servicio/1234
+
+* Verbo en la URI:
+http://www.ejemplo.gob.sv/servicio/1234/create
+
+* Filtro fuera del query string
+http://www.ejemplo.gob.sv/servicio/2016/desc
+
 
 **Listar elementos**
 
@@ -216,10 +253,10 @@ Si se utiliza paginación se debe establecer un número de **elementosPorPagina*
 Además, se sugiere enviar opcionalmente en la respuesta el header link con información referente a la paginación ("first" la primera página, "prev" la página anterior, "next" la siguiente página y "last" la última página).
 
 ```html
-Link: <https://miempresa.gob.sv/servicio?limite=20&intervalo=0>;rel="first", 
-      <https://miempresa.gob.sv/servicio?limite=20&intervalo=40>;rel="prev", 
-      <https://miempresa.gob.sv/servicio?limite=20&intervalo=80>;rel="next",
-      <https://miempresa.gob.sv/servicio?limite=20&intervalo=180>;rel="last"
+Link: <https://ejemplo.gob.sv/servicio?limite=20&intervalo=0>;rel="first", 
+      <https://ejemplo.gob.sv/servicio?limite=20&intervalo=40>;rel="prev", 
+      <https://ejemplo.gob.sv/servicio?limite=20&intervalo=80>;rel="next",
+      <https://ejemplo.gob.sv/servicio?limite=20&intervalo=180>;rel="last"
 ```
 
 **Ordenamiento**
@@ -608,6 +645,18 @@ Es necesario establecer la codificación en el encabezado <xml> del documento XM
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 ```
+
+### Verbos HTTP.
+
+Los verbos HTTP, o métodos, se deben utilizar en el cumplimiento de sus definiciones de la norma 1.1 / HTTP. 
+Ejemplo de cómo se deben utilizar los verbos HTTP para crear, leer, actualizar y eliminar las operaciones en el recurso "servicios":
+
+| Operación | Verbo HTTP| /servicios | /servicios/1234 |
+| --- | --- | --- | --- |
+| CREATE | POST | Crear un nuevo servicio | Error |
+| READ | GET | Obtener lista de servicios | Obtener el servicio con id 1234 |
+| UPDATE | PUT | Error | Actualizar el servicio con id 1234 |
+| DELETE | DELETE | Eliminar todos los servicios | Elminar el servicio con id 1234 |
 
 ### Códigos de Respuesta HTTP.
 
