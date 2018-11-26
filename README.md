@@ -5,9 +5,8 @@
 ## Estándares
 * [Estándares de Desarrollo](Desarrollo.md)
 * [Estándares de Seguridad](Seguridad.md)
-* [Estándares de Desempeño y Disponibilidad](Desempeño.md)
-* [Estándares de Desempeño y Disponibilidad](Desempe%C3%B1o/Estandares.md)
-* [Patrones (buenas prácticas) y Antipatrones (prácticas a evitar)](Desempe%C3%B1o/Patrones-Antipatrones.md)
+* [Estándares de Desempeño y Disponibilidad](Desempeño/Estandares.md)
+* [Patrones (buenas prácticas) y Antipatrones (prácticas a evitar)](Desempeño/Patrones-Antipatrones.md)
 
 
 ### Licencia
